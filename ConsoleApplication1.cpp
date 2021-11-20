@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "Array.h"
 #include <ctime>
 #include <chrono>

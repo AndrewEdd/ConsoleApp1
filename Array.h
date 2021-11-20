@@ -33,7 +33,7 @@ public:
 	void readFile();
 	void naturalMergeSort();
 
-	int binarySearch(int findNumber,int &index);
+	int binarySearch(int findNumber,int &index, int left =-1, int right =-1);
 	int binaryHuntAndSearch(int huntNumber, int findNumber, int& index);
 
 	void resize(int size);
@@ -159,7 +159,7 @@ inline void Array::merge_sort(int* arr, int leftB, int rightB)
 
 inline void Array::merge_sort()
 {
-	if (this->size > 1)                      //входная точка для метода merge_sort с параметрами
+	if (this->size > 1)                      //пїЅ пїЅ пїЅ пїЅ merge_sort пїЅ пїЅ
 	{
 		merge_sort(arr, 0, this->size - 1);
 	}
@@ -361,9 +361,9 @@ inline void Array::readFile()
 
 inline void Array::naturalMergeSort()
 {
-	//int dataF, dataF1; //два значения для сравнения из sourceArray.txt
+	//int dataF, dataF1; //пїЅ пїЅ пїЅ пїЅ пїЅ sourceArray.txt
 	int s1, s2;
-	bool flagOfSeries = false; // флаг серии (0 или 1)
+	bool flagOfSeries = false; // пїЅ пїЅ (0 пїЅ 1)
 	bool sorted = false;
 	fstream f, f1, f2;
 
@@ -385,14 +385,14 @@ inline void Array::naturalMergeSort()
 			f >> s1;
 			f1 << s1 << " ";
 		}
-		while (f >> s2) //чтение поочередно каждого значения из файла sourceArray.txt и формирование серий в f1 и  f2
+		while (f >> s2) //пїЅ пїЅ пїЅ пїЅ пїЅ пїЅ sourceArray.txt пїЅ пїЅ пїЅ пїЅ f1 пїЅ  f2
 		{
 			//0 = write to f1, 1 = write to f2
 			switch (flagOfSeries)
 			{
 			case false:
 			{
-				if (s1 <= s2) //пишем серию в f1
+				if (s1 <= s2) //пїЅ пїЅ пїЅ f1
 				{
 					f1 << s2 << " ";
 				}
@@ -438,7 +438,7 @@ inline void Array::naturalMergeSort()
 		f1.open(_f1_path, ifstream::in);
 		f2.open(_f2_path, ifstream::in);
 
-		//если второй файл пуст, то sorted = true;
+		//пїЅ пїЅ пїЅ пїЅ, пїЅ sorted = true;
 		if (f2.peek() == -1)
 		{
 			sorted = true;
@@ -458,7 +458,7 @@ inline void Array::naturalMergeSort()
 			getline(f2, str2);
 			istringstream istream1(str1);
 			istringstream istream2(str2);
-			// если обе серии имеются
+			// пїЅ пїЅ пїЅ пїЅ
 			if (!str1.empty() && !str2.empty())
 			{
 				istream1 >> b1;
@@ -498,10 +498,10 @@ inline void Array::naturalMergeSort()
 
 				}
 			}
-			// остальные случаи
+			// пїЅ пїЅ
 			else if ((!str1.empty() && str2.empty()) || (str1.empty() && !str2.empty()) || (str1.empty() && str2.empty()))
 			{
-				// если осталась только серия в 1 файле
+				// пїЅ пїЅ пїЅ пїЅ пїЅ 1 пїЅ
 				if (!str1.empty() && str2.empty())
 				{
 					while (istream1 >> b1)
@@ -511,7 +511,7 @@ inline void Array::naturalMergeSort()
 					}
 					break;
 				}
-				// если осталась только серия в 2 файле
+				// пїЅ пїЅ пїЅ пїЅ пїЅ 2 пїЅ
 				if ((str1.empty() && !str2.empty()))
 				{
 					while (istream2 >> b2)
@@ -521,7 +521,7 @@ inline void Array::naturalMergeSort()
 					}
 					break;
 				}
-				//если серий не осталось
+				//пїЅ пїЅ пїЅ пїЅ
 				if ((str1.empty() && str2.empty()))
 				{
 					break;
@@ -541,11 +541,14 @@ inline void Array::naturalMergeSort()
 
 }
 
-inline int Array::binarySearch(int findNumber,int &index)
+inline int Array::binarySearch(int findNumber,int &index,int left =-1, int right = -1)
 {
 	this->countingSort();
+  if(left == -1 && right == -1)
+  {
 	int left = 0;
 	int right = this->size-1;
+  }
 	int middle = (left + right) / 2;
 	int search_indx = -1;
 	while (left<=right)
@@ -578,10 +581,37 @@ inline int Array::binaryHuntAndSearch(int huntNumber, int findNumber, int& index
 	int right = indxHunt;
 	if (this->arr[indxHunt] < findNumber)
 	{
-		
+    int i = 1;
+		while(this->arr[right] < findNumber)
+      {
+        i *=2;
+        right = right + i;
+        if(right > this->size-1)
+        {
+          right = this->size-1;
+          break;
+        }
+      }
 	}
-	
-	return 0;
+  else
+  {
+    int i = 1;
+		while(this->arr[left] > findNumber)
+      {
+        i *=2;
+        left = left - i;
+        if(left <= 0 )
+        {
+          left = 0;
+          break;
+        }
+      }
+  }
+  int indxF = -1;
+  this->binarySearch(findNumber,indxF,left,right);
+  index = indxF;
+  return indexHunt;
+  
 }
 
 
