@@ -622,7 +622,7 @@ inline int Array::binaryHuntAndSearch(int huntNumber, int findNumber, int& index
   
 }
 
-inline void Array::resize(int size)
+inline void Array::resize(int size) 
 {
 	delete[] arr;
 	this->size = size;
