@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include "Array.h"
 #include <ctime>
 #include <chrono>
@@ -11,7 +11,7 @@ int main()
     long int sec_d = 1000000000;
     Array arr = Array(100);
     arr.setRandom(-100, 100);
-    int index = 0;
+    //int index = 0;
    // arr.binarySearch(0);
     do
     {
@@ -27,6 +27,7 @@ int main()
         cout << "\n 9.Print.";
         cout << "\n _____________________________";
         cout << "\n 10. Binary search";
+        cout << "\n 11. Binary hunt and search";
         cout << "\n\n 0.Exit";
         cout << "\n";
         cin >> n;
@@ -132,6 +133,7 @@ int main()
                 {
                     arr[i] = vtemp[i];
                 }
+                cout << "The array has been sorted!\n";
                 cout << "Enter search number : \n";
                 int findNumber;
                 cin >> findNumber;
@@ -170,6 +172,95 @@ int main()
             break;
         }
 
+        case 11:
+        {
+            int i = 0;
+            int indexH = -1; //индекс первого числа
+            int indexF = -1; //индекс второго числа
+            int huntNumber;
+            int findNumber;
+            cout << "      1.Enter new array." << endl;
+            cout << "      2.Use current array." << endl;
+            cin >> i;
+            switch (i)
+            {
+            case 1:
+            {
+                cout << "Enter array : \n";
+                string str;
+                cin.ignore();
+                getline(cin, str);
+                istringstream istream(str);
+                int temp;
+                vector<int> vtemp(0);
+                while (istream >> temp)
+                {
+                    vtemp.push_back(temp);
+                }
+                arr.resize(vtemp.size());
+                for (int i = 0; i < arr.getSize(); i++)
+                {
+                    arr[i] = vtemp[i];
+                }
+                cout << "The array has been sorted!\n";
+                cout << "Enter 2 number for search: \n";
+                cin >> huntNumber;
+                cin >> findNumber;
+                cout << "Time: " << arr.getTime(arr, [huntNumber, findNumber, &indexH, &indexF](Array& arr) { return arr.binaryHuntAndSearch(huntNumber, findNumber, indexH, indexF); }) / sec_d << " sec" << endl;
+                
+                if (indexH == -1)
+                {
+                    cout << "Number: " << huntNumber << " not found!\n";
+                    
+                }
+                else
+                {
+                    cout << "The number: "<<huntNumber<<" is at " << indexH << " position.\n";
+                }
+
+                if (indexF == -1)
+                {
+                    cout << "Number: " << findNumber << " not found!\n";
+
+                }
+                else
+                {
+                    cout << "The number: " << findNumber << " is at " << indexF << " position.\n";
+                }
+                break;
+            }
+            case 2:
+            {
+                cout << "The array has been sorted!\n";
+                cout << "Enter 2 number for search: \n";
+                cin >> huntNumber;
+                cin >> findNumber;
+                cout << "Time: " << arr.getTime(arr, [huntNumber, findNumber, &indexH, &indexF](Array& arr) { return arr.binaryHuntAndSearch(huntNumber, findNumber, indexH, indexF); }) / sec_d << " sec" << endl;
+                
+                if (indexH == -1)
+                {
+                    cout << "Number: " << huntNumber << " not found!\n";
+
+                }
+                else
+                {
+                    cout << "The number: " << huntNumber << " is at " << indexH << " position.\n";
+                }
+
+                if (indexF == -1)
+                {
+                    cout << "Number: " << findNumber << " not found!\n";
+
+                }
+                else
+                {
+                    cout << "The number: " << findNumber << " is at " << indexF << " position.\n";
+                }
+                break;
+            }
+            }
+            break;
+        }
         }
 
     } while (n != 0);
